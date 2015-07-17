@@ -1,8 +1,21 @@
-var reports_server = 'https://crash-reports.mocotoolsstaging.net';
-var stats_server = 'https://crash-stats.mocotoolsstaging.net';
+var reportsServer = 'https://crash-reports.mocotoolsstaging.net';
+var statsServer = 'https://crash-stats.mocotoolsstaging.net';
+var productName = 'Crash My JS';
+var version = '1.0';
 
-function submitCrash(form, serverURL) {
+function submitCrash(msg, url, line, column, err) {
+    var serverURL = reportsServer + '/submit';
     var xhr = new XMLHttpRequest();
+
+    var form = {
+        'ProductName': productName,
+        'Version': version,
+        'JSMessage': msg,
+        'JSURL': url,
+        'JSLine': line,
+        'JSColumn': column,
+        'JSStack': err.stack
+    };
 
     xhr.open('POST', serverURL, true);
     var boundary=Math.random().toString().substr(2);
@@ -22,7 +35,7 @@ function submitCrash(form, serverURL) {
         if (xhr.readyState == 4) {
             var response = xhr.responseText;
             var crashid = response.split('=')[1];
-            var url = stats_server + '/report/index/' + crashid;
+            var url = statsServer + '/report/index/' + crashid;
 
             var br = document.createElement('br'); 
             document.body.appendChild(br);
@@ -40,7 +53,7 @@ function submitCrash(form, serverURL) {
         var span = document.createElement('span'); 
         span.id = 'loading';
         var content = '';
-        span.appendChild(document.createTextNode('workin...'));
+        span.appendChild(document.createTextNode("workin'..."));
         document.body.appendChild(span);
 
     }, false);
@@ -49,15 +62,9 @@ function submitCrash(form, serverURL) {
 }
 
 document.getElementById('crashmyjs').addEventListener('click', function() {
-    var form = {};
-    form.ProductName = document.getElementById('productname').value;
-    form.Version = document.getElementById('version').value;
-
-    try {
-        throw Error('Crash My JS');
-    } catch(e) {
-        form.JSException = e.stack;
-        submitCrash(form, reports_server + '/submit');
-    }
-
+    raiseException('Crash My JS');
 }, false);
+
+window.onerror = function (msg, url, line, column, err) {
+    submitCrash(msg, url, line, column, err);
+}
