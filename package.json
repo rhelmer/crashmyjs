@@ -1,0 +1,13 @@
+{
+  "title": "Crash My JS",
+  "name": "crashmyjs",
+  "version": "0.0.1",
+  "description": "Report JS exceptions to crash-stats",
+  "main": "index.js",
+  "author": "Robert Helmer <rhelmer@rhelmer.org>",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT"
+}
