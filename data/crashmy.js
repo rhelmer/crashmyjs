@@ -1,5 +1,5 @@
-var reports_server = 'https://crash-reports.mocotoolsstaging.net'
-var stats_server = 'https://crash-stats.mocotoolsstaging.net'
+var reports_server = 'https://crash-reports.mocotoolsstaging.net';
+var stats_server = 'https://crash-stats.mocotoolsstaging.net';
 
 function submitCrash(form, serverURL) {
     var xhr = new XMLHttpRequest();
@@ -28,7 +28,7 @@ function submitCrash(form, serverURL) {
             document.body.appendChild(br);
             var a = document.createElement('a'); 
             a.href = url;
-            a.target='_newtab'
+            a.target='_newtab';
             a.appendChild(document.createTextNode(crashid));
             document.body.appendChild(a);
             var loading = document.getElementById('loading');
