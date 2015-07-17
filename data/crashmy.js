@@ -31,9 +31,11 @@ document.getElementById('crashmyjs').addEventListener('click',
         form.Version = document.getElementById('version').value;
 
         try {
-            throw 'Crash My JS';
+            throw Error('Crash My JS');
         } catch(e) {
-            submitCrash(form, 'https://crash-reports.mocotoolsstaging.net/submit');
+            form.JSException = e.stack;
+            submitCrash(form,
+                'https://crash-reports.mocotoolsstaging.net/submit');
         }
 
     }, false
